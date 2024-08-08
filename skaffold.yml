@@ -1,0 +1,32 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+profiles:
+  - name: prod
+    build:
+      local:
+        push: false
+      artifacts:
+        - image: aniiencalada/auth
+          context: auth
+          docker:
+            dockerfile: Dockerfile
+        - image: aniiencalada/comments
+          context: comments
+          docker:
+            dockerfile: Dockerfile
+        - image: aniiencalada/images
+          context: images
+          docker:
+            dockerfile: Dockerfile
+        - image: aniiencalada/posts
+          context: posts
+          docker:
+            dockerfile: Dockerfile
+        - image: aniiencalada/search
+          context: search
+          docker:
+            dockerfile: Dockerfile
+    deploy:
+      kubectl:
+        manifests:
+          - ./infra/*

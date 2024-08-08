@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  rules:
+    - host: espe.dev
+      http:
+        paths:
+          - path: /api/auth/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 8000
+          - path: /api/comments/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: comments-srv
+                port:
+                  number: 6040
+          - path: /api/images/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: images-srv
+                port:
+                  number: 8000
+          - path: /posts/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: posts-srv
+                port:
+                  number: 8000
+          - path: /api/search/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: search-srv
+                port:
+                  number: 8000
+          # - path: /?(.*)
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: client-srv
+          #       port:
+          #         number: 3000
